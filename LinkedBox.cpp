@@ -70,18 +70,9 @@ bool LinkedBox<T>::addItem(const T& target){
     if (size_ + target.size() > capacity_) { 
         return false;
     }
-    Node<T>* newNode = new Node<T>(target, nullptr);
-    if (head_ == nullptr) {
-        head_ = newNode;
-    } 
-    else {
-        Node<T>* current = head_;
-        while (current->next() != nullptr) {
-            current = current->next();
-        }
-        current->setNext(newNode);
-    }
-    size_ += target.size();
+    Node<T>* newNode = new Node<T>(target,head_);
+    head_=newNode;
+    size +=target.size();
     return true;
 }
 
@@ -102,26 +93,31 @@ bool LinkedBox<T>::addItem(const T& target){
  */
 template <typename T>
 bool LinkedBox<T>::remove(const std::string& type) {
-    Node<T>* current = head_;
-    Node<T>* prev = nullptr;
-    while (current != nullptr){
-        if (current->value().getType() == type){
-            if (prev == nullptr) {
-                head_ = current->next();
-            } 
-            else{
-                prev->setNext(current->next());
-            }
-            size_ -= current->value().size();
-            delete current;
-            return true;
-        }
-        prev = current;
-        current = current->next();
+    Node<T>* prevPtr=head_ ;
+    Node<T>* curPtr= head_->next();
+
+    if (prevPtr->value().getType() == type) {
+        size_ -= head_->value().size();
+        delete head_;
+        head_ = curPtr;
+        return true;
     }
+    else {
+        while (curPtr != nullptr) {
+            if (curPtr->value().getType() == type) {
+                Node<T>* newNext= curPtr->next() ;
+                size_ -= curPtr->value().size();
+                delete curPtr;
+                prevPtr->setNext(newNext);
+                return true;
+            }
+            prevPtr = prevPtr->next();
+            curPtr = curPtr->next();
+        }
+    }
+
     return false;
 }
-
 /**
  * @brief Determines whether the LinkedBox contains an item of the specified type
  * 
