@@ -26,7 +26,7 @@ public:
      */
     LinkedBox(const int& capacity);
 
-    ~LinkedBox();
+    
     /**
      * @brief Getter for the size_ member
      * @return The integer value stored within the size_ member variable
