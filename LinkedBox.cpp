@@ -22,15 +22,6 @@ LinkedBox<T>::LinkedBox(const int& capacity):head_{nullptr}, size_{0}, capacity_
         }
 }
 
-template <typename T>
-LinkedBox<T>::~LinkedBox() {
-    Node<T>* current = head_;
-    while (current != nullptr) {
-        Node<T>* next = current->next();
-        delete current;
-        current = next;
-    }
-}
 /**
  * @brief Getter for the size_ member
  * @return The integer value stored within the size_ member variable
